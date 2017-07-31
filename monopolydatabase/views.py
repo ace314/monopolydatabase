@@ -70,9 +70,9 @@ class Cure_knife(APIView):  #醫院治療刀傷
 
 class Got_land(APIView):
 
-    def get(self, request, playerpk, landname, get_or_loss):     #get_or_loss: get=1  ;   loss=0
-        if (land.objects.filter(land_name=landname).exists()):
-            landing = land.objects.get(land_name=landname)
+    def get(self, request, playerpk, landpk, get_or_loss):     #get_or_loss: get=1  ;   loss=0
+        if (land.objects.filter(pk=landpk).exists()):
+            landing = land.objects.get(pk=landpk)
             if (int(get_or_loss)==1):   #get or loss
                 if (int(landing.owner.player_number)==0):    #無主地
                     reciever = player.objects.get(pk=playerpk)
@@ -102,8 +102,8 @@ class Got_land(APIView):
             return HttpResponse(error_landnonexist_response)
 
 class Get_house(APIView):
-    def get(self, request, playerpk, landname, amount):
-        landing = land.objects.get(land_name=landname)
+    def get(self, request, playerpk, landpk, amount):
+        landing = land.objects.get(pk=landpk)
         if (landing.owner.player_number == int(playerpk)):  #土地確實為買房者擁有
             amo = int(amount)
             a = str(landing.land_name)
@@ -128,27 +128,41 @@ class Get_house(APIView):
 
 class stockss(APIView):
 
-    def get(self, request, playerpk, stockname, amount):
-        if(stock.objects.filter(stock_name=stockname).exists()):
-            stocking = stock.objects.get(stock_name=stockname)
+    def get(self, request, playerpk, stockpk, amount):
+        if(stock.objects.filter(pk=stockpk).exists()):
+            stocking = stock.objects.get(pk=stockpk)
             value = stocking.stock_value
             buyer = player.objects.get(pk=playerpk)
             stock_list = self.get_correct_player_stock_list(playerpk)    #某玩家持有所有股票列表
             target_stock_record = stock_list.get(stock=stocking)    #從上一行列表找出目標股票持有資料
             amo = int(amount)
             cost = value*amo
-            if (buyer.bank_money < cost):
-                not_enough_money_response = u'銀行餘額不足!\n'
-                return HttpResponse(not_enough_money_response)
+            if(amo >= 0):
+                if (buyer.bank_money < cost):
+                    not_enough_money_response = u'銀行餘額不足!\n'
+                    return HttpResponse(not_enough_money_response)
+                else:
+                    buyer.bank_money -= cost
+                    target_stock_record.stock_amount += amo
+                    buyer.save()
+                    target_stock_record.save()
+                    stock_name = str(stocking.stock_name)
+                    amount_unicode = str(amo)
+                    success_buy_response = u'成功購買股票' + stock_name + u'，共計' + amount_unicode + u'股!\n'
+                    return HttpResponse(success_buy_response)
             else:
-                buyer.bank_money -= cost
-                target_stock_record.stock_amount += amo
-                buyer.save()
-                target_stock_record.save()
-                stock_name = str(stocking.stock_name)
-                amount_unicode = str(amo)
-                success_buy_response = u'成功購買股票' + stock_name + u'，共計' + amount_unicode + u'股!\n'
-                return HttpResponse(success_buy_response)
+                if (target_stock_record.stock_amount < abs(amo)):
+                    not_enough_stock_response = u'持有股票不足!\n'
+                    return HttpResponse(not_enough_stock_response)
+                else:
+                    buyer.bank_money -= cost
+                    target_stock_record.stock_amount += amo
+                    buyer.save()
+                    target_stock_record.save()
+                    stock_name = str(stocking.stock_name)
+                    amount_unicode = str(abs(amo))
+                    success_sell_response = u'成功販賣股票' + stock_name + u'，共計' + amount_unicode + u'股!\n'
+                    return HttpResponse(success_sell_response)
         else:
             stock_nonexist_response = u'股票不存在!\n'
             return HttpResponse(stock_nonexist_response)
@@ -161,9 +175,9 @@ class stockss(APIView):
 
 class change_stock_risefall(APIView):
 
-    def get(self, request, stockname, risefall, timeindex):
-        if (stock.objects.filter(stock_name=stockname).exists()):
-            stocking = stock.objects.get(stock_name=stockname)
+    def get(self, request, stockpk, risefall, timeindex):
+        if (stock.objects.filter(pk=stockpk).exists()):
+            stocking = stock.objects.get(pk=stockpk)
             list = stock_random_risefall_list.objects.get(stockname=stocking, index=int(timeindex))
             list.risefall = int(risefall)
             list.save()
@@ -228,23 +242,23 @@ class request_knives(APIView):
 
 #stock
 class request_stock_amount(APIView):
-    def get(self, request, stockname, playerpk):
-        stocking = stock.objects.get(stock_name=stockname)
+    def get(self, request, stockpk, playerpk):
+        stocking = stock.objects.get(pk=stockpk)
         user = player.objects.get(pk=playerpk)
         stock_record = players_stock_list.objects.get(owned_player=user, stock=stocking)
         response = str(stock_record.stock_amount)
         return HttpResponse(response)
 
 class request_stock_value(APIView):
-    def get(self, request, stockname):
-        stocking = stock.objects.get(stock_name=stockname)
+    def get(self, request, stockpk):
+        stocking = stock.objects.get(pk=stockpk)
         response = str(stocking.stock_value)
         return HttpResponse(response)
 
 class request_stock_last_risefall(APIView):
-    def get(self, request, stockname, timeindex):
-        stocking = stock.objects.get(stock_name=stockname)
-        a = stock_random_risefall_list.objects.get(stockname=stockname, index=timeindex)
+    def get(self, request, stockpk, timeindex):
+        stocking = stock.objects.get(pk=stockpk)
+        a = stock_random_risefall_list.objects.get(stockname=stocking, index=timeindex)
         response = str(a.risefall)
         return HttpResponse(response)
 
@@ -262,8 +276,8 @@ class request_lands(APIView):
 
 class request_houses(APIView):
 
-    def get(self, request, landname):
-        landing = land.objects.get(land_name=landname)
+    def get(self, request, landpk):
+        landing = land.objects.get(pk=landpk)
         houses_response = str(landing.houses)
         return HttpResponse(houses_response)
 '''
