@@ -104,15 +104,26 @@ class Got_land(APIView):
 class Get_house(APIView):
     def get(self, request, playerpk, landpk, amount):
         landing = land.objects.get(pk=landpk)
-        if (landing.owner.player_number == int(playerpk)):  #土地確實為買房者擁有
+        if (landing.owner.pk == int(playerpk)):  #土地確實為買房者擁有
             amo = int(amount)
             a = str(landing.land_name)
             b = str(abs(amo))
             if (amo >= 1):
-                landing.houses += amo
-                landing.save()
-                success_response = u'成功為' + a + u'增加' + b + u'棟房子'
-                return HttpResponse(success_response)
+                land_value = landing.land_value
+                float_house_cost = float(land_value) * 0.4
+                house_cost = int(float_house_cost)
+                cost = house_cost * amo
+                buyer = player.objects.get(pk=playerpk)
+                if (buyer.pocket_money >= cost):
+                    buyer.pocket_money -= cost
+                    landing.houses += amo
+                    buyer.save()
+                    landing.save()
+                    success_response = u'成功為' + a + u'增加' + b + u'棟房子'
+                    return HttpResponse(success_response)
+                else:
+                    fail_response = u'購買失敗，有多少資本買多少房，籌好錢再來!'
+                    return HttpResponse(fail_response)
             else:
                 if(landing.houses < abs(amo)):
                     not_enough_houses_response = u'房子不夠拆啦，拆少點或別拆好嗎TAT\n'
@@ -222,6 +233,18 @@ class stock_value_update(APIView):
 '''request part'''
 
 #player
+class periodic_update_bank_money(APIView):
+    def get(self, request, playerpk):
+        user = player.objects.get(pk=playerpk)
+        knives = int(user.poisoned)
+        damage = 30 * knives
+        user.bank_money -= damage
+        interest = 0.02 * float(user.bank_money)
+        user.bank_money += int(interest)
+        user.save()
+        response = str(user.bank_money)
+        return HttpResponse(response)
+
 class request_bank_money(APIView):
     def get(self, request, playerpk):
         a = player.objects.get(pk = playerpk)
@@ -268,10 +291,10 @@ class request_lands(APIView):
     def get(self, request, playerpk, landpk):
         landing = land.objects.get(pk=landpk)
         if (int(landing.owner.player_number) == int(playerpk)):
-            true_response = str(1)
+            true_response = str(landing.houses)
             return  HttpResponse(true_response)
         else:
-            false_response = str(0)
+            false_response = u'?'
             return HttpResponse(false_response)
 
 class request_houses(APIView):
