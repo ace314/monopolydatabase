@@ -11,10 +11,10 @@ class PlayerStocksAdmin(admin.ModelAdmin):
     list_display = ["pk", "owned_player", "stock", "stock_amount"]
 
 class LandAdmin(admin.ModelAdmin):
-    list_display = ["land_name", "land_type", "land_value", "owner", "houses"]
+    list_display = ["pk", "land_name", "land_type", "land_value", "owner", "houses"]
 
 class StockRandomList(admin.ModelAdmin):
-    list_display = ["stockname","risefall", "index"]
+    list_display = ["pk", "stockname","risefall", "index"]
 
 
 

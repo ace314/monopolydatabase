@@ -13,19 +13,20 @@ class Addmoney_bank(APIView):
     def get(self, request, recieverpk, money):
         reciever = player.objects.get(pk=recieverpk)
         mon = int(money)
+        a = str(abs(mon))
         if mon<0:
             if (reciever.bank_money<abs(mon)):
-                not_enough_money_response = u'存款餘額不足，將被歸零!\n'
+                not_enough_money_response = u'存款餘額不足' + a + u'元，將被歸零!\n'
                 return HttpResponse(not_enough_money_response)
             else:
                 reciever.bank_money += mon
                 reciever.save()
-                success_response = u'銀行成功扣款!\n'
+                success_response = u'銀行成功扣款' + a + u'元!\n'
                 return HttpResponse(success_response)
         else:
             reciever.bank_money += mon
         reciever.save()
-        success_response = u'銀行成功入帳!\n'
+        success_response = u'銀行成功入帳' + a + u'元!\n'
         return HttpResponse(success_response)
 
 class Addmoney_pocket(APIView):
@@ -33,29 +34,31 @@ class Addmoney_pocket(APIView):
     def get(self, request, recieverpk, money):
         reciever = player.objects.get(pk=recieverpk)
         mon = int(money)
+        a = str(abs(mon))
         if mon<0:
             if (reciever.pocket_money<abs(mon)):
-                not_enough_money_response = u'現金餘額不足，將被歸零!\n'
+                not_enough_money_response = u'現金餘額不足' + a + u'元，將被歸零!\n'
                 return HttpResponse(not_enough_money_response)
             else:
                 reciever.pocket_money += mon
                 reciever.save()
-                success_response = u'成功支付現金!\n'
+                success_response = u'成功支付現金' + a + u'元!\n'
                 return HttpResponse(success_response)
         else:
             reciever.pocket_money += mon
         reciever.pocket_money += mon
         reciever.save()
-        success_response = u'成功獲得現金!\n'
+        success_response = u'成功獲得現金' + a + u'元!\n'
         return HttpResponse(success_response)
 
 class Got_knife(APIView):   #獲得刀傷
 
-    def get(self, request, recieverpk):
+    def get(self, request, recieverpk, amount):
         reciever = player.objects.get(pk=recieverpk)
-        reciever.poisoned += 1
+        amo = int(amount)
+        reciever.poisoned += amo
         reciever.save()
-        success_give_knife_response = u'成功給予刀傷!'
+        success_give_knife_response = u'成功給予第' + str(recieverpk) + u'小隊' + str(amo) + u'級刀傷!'
         return HttpResponse(success_give_knife_response)
 
 class Cure_knife(APIView):  #醫院治療刀傷
@@ -78,12 +81,12 @@ class Got_land(APIView):
                     reciever = player.objects.get(pk=playerpk)
                     landvalue = landing.land_value
                     if (reciever.pocket_money < landvalue):     #錢不夠買地
-                        not_enough_money_response = u'現金餘額不足!\n'
+                        not_enough_money_response = u'現金餘額不足無法購買土地!\n'
                         return HttpResponse(not_enough_money_response)
                     else:                                       #錢夠買地，購買成功
                         landing.owner = reciever
                         landing.save()
-                        success_get_response = u'土地' + u'購買成功!\n'
+                        success_get_response = u'土地購買成功!\n'
                         return HttpResponse(success_get_response)
                 else:
                     error_get_response = u'買別人土地甚麼心態，購買失敗!\n'
@@ -106,7 +109,6 @@ class Get_house(APIView):
         landing = land.objects.get(pk=landpk)
         if (landing.owner.pk == int(playerpk)):  #土地確實為買房者擁有
             amo = int(amount)
-            a = str(landing.land_name)
             b = str(abs(amo))
             if (amo >= 1):
                 land_value = landing.land_value
@@ -119,7 +121,7 @@ class Get_house(APIView):
                     landing.houses += amo
                     buyer.save()
                     landing.save()
-                    success_response = u'成功為' + a + u'增加' + b + u'棟房子'
+                    success_response = u'成功為土地增加' + b + u'棟房子'
                     return HttpResponse(success_response)
                 else:
                     fail_response = u'購買失敗，有多少資本買多少房，籌好錢再來!'
@@ -131,7 +133,7 @@ class Get_house(APIView):
                 else:
                     landing.houses += amo
                     landing.save()
-                    success_response = u'成功為' + a + u'減少' + b + u'棟房子'
+                    success_response = u'成功減少' + b + u'棟房子'
                     return HttpResponse(success_response)
         else:
             not_true_owner_response = u'請不要秀財產幫別人的地蓋房好嗎!\n'
@@ -229,6 +231,18 @@ class stock_value_update(APIView):
             stocking.save()
             success_stock_value_update_response = u'成功更新當前股票價值\n'
             return HttpResponse(success_stock_value_update_response)
+
+class rob_money(APIView):
+
+    def get(self, request, playerpk):
+        user = player.objects.get(pk=playerpk)
+        cash = float(user.pocket_money)
+        rob_amount = int(0.95 * cash)
+        user.pocket_money = rob_amount
+        user.save()
+        rob = int(cash - rob_amount)
+        success_rob_response = u'成功搶奪第' + str(playerpk) + u'小隊的現金' + str(rob) + u'元!'
+        return HttpResponse(success_rob_response)
 
 '''request part'''
 
