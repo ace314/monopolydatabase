@@ -4,7 +4,7 @@ from random import randint
 from django.db.models import Q
 from django.http import HttpResponse
 
-from .models import player, stock, players_stock_list, land, stock_random_risefall_list
+from .models import player, stock, players_stock_list, land, stock_random_risefall_list, mansion
 # Create your views here.
 
 #TODO:從random_list中取值改變股票價值; 各種更新時的calling
@@ -46,7 +46,6 @@ class Addmoney_pocket(APIView):
                 return HttpResponse(success_response)
         else:
             reciever.pocket_money += mon
-        reciever.pocket_money += mon
         reciever.save()
         success_response = u'成功獲得現金' + a + u'元!\n'
         return HttpResponse(success_response)
@@ -85,6 +84,8 @@ class Got_land(APIView):
                         return HttpResponse(not_enough_money_response)
                     else:                                       #錢夠買地，購買成功
                         landing.owner = reciever
+                        reciever.pocket_money -= int(landing.land_value)
+                        reciever.save()
                         landing.save()
                         success_get_response = u'土地購買成功!\n'
                         return HttpResponse(success_get_response)
@@ -229,8 +230,9 @@ class stock_value_update(APIView):
             new_value = float(stocking.stock_value) * (1.0 + percentage)
             stocking.stock_value = int(new_value)
             stocking.save()
-            success_stock_value_update_response = u'成功更新當前股票價值\n'
-            return HttpResponse(success_stock_value_update_response)
+
+        success_stock_value_update_response = u'成功更新當前股票價值\n'
+        return HttpResponse(success_stock_value_update_response)
 
 class rob_money(APIView):
 
@@ -244,6 +246,102 @@ class rob_money(APIView):
         success_rob_response = u'成功搶奪第' + str(playerpk) + u'小隊的現金' + str(rob) + u'元!'
         return HttpResponse(success_rob_response)
 
+class pay_toll(APIView):
+
+    def get(self, request, payerpk, landpk):
+        payer = player.objects.get(pk=payerpk)
+        landing = land.objects.get(pk=landpk)
+        toll_float = float(landing.land_value) * (0.2 + 0.08 * (landing.houses))
+        toll = int(toll_float)
+        reciever = landing.owner
+        reciever.bank_money += toll
+        reciever.save()
+        if (payer.pocket_money >= toll):
+            payer.pocket_money -= toll
+            payer.save()
+            success_pay_response = u'成功支付過路費' + str(toll) + u'元!\n'
+            return HttpResponse(success_pay_response)
+        else:
+            payer.pocket_money = 0
+            payer.save()
+            not_enough_money_response = u'存款餘額不足支付過路費' + str(toll) + u'元，將被歸零!'
+            return HttpResponse(not_enough_money_response)
+
+class invest_mansion(APIView):
+
+    def get(self, request, payerpk, money):
+        mansioning = mansion.objects.get(name='total')
+        if (mansioning.tag):
+            already_built_response = u'帝寶已磅礡落成，無法再投資!'
+            return HttpResponse(already_built_response)
+        else:
+            payer = player.objects.get(pk=payerpk)
+            mon = int(money)
+            difference = 50000 - mansioning.money
+            if (mon >= difference):
+                mon = difference
+                if (payer.pocket_money >= mon):
+                    payer_record = mansion.objects.get(pk=payerpk)
+                    payer.pocket_money -= mon
+                    mansioning.money += mon
+                    payer_record.money += mon
+                    mansioning.tag = 1
+                    payer.save()
+                    mansioning.save()
+                    payer_record.save()
+                    success_built_response = u'恭喜!\n成功投資' + str(mon) + u'元，帝寶建立成功!'
+                    return HttpResponse(success_built_response)
+                else:
+                    not_enough_money_response = u'現金不足!年輕人量力而為啊，有多少資本做多少事。'
+                    return HttpResponse(not_enough_money_response)
+            else:
+                if (payer.pocket_money >= mon):
+                    payer_record = mansion.objects.get(pk=payerpk)
+                    payer.pocket_money -= mon
+                    mansioning.money += mon
+                    payer_record.money += mon
+                    payer.save()
+                    mansioning.save()
+                    payer_record.save()
+                    success_built_response = u'成功投資' + str(mon) + u'元!'
+                    return HttpResponse(success_built_response)
+                else:
+                    not_enough_money_response = u'現金不足!年輕人量力而為啊，有多少資本做多少事。'
+                    return HttpResponse(not_enough_money_response)
+
+class pay_toll_mansion(APIView):
+
+    def get(self, request, payerpk):
+        mansioning = mansion.objects.get(name='total')
+        if(mansioning.tag):
+            mansion_record = mansion.objects.get(pk=payerpk)
+            percent = 1.0 - (mansion_record.money / 50000)
+            toll = int(5000.0 * percent)
+            payer = player.objects.get(pk=payerpk)
+            if (payer.pocket_money >= toll):
+                self.money_to_stockholder(toll)
+                payer.pocket_money -= toll
+                payer.save(update_fields=['pocket_money'])
+                success_pay_response = u'成功支付過路費' + str(toll) + u'元!\n'
+                return HttpResponse(success_pay_response)
+            else:
+                payer.pocket_money = 0
+                a = payer.bank_money
+                self.money_to_stockholder(a)
+                payer.save(update_fields=['pocket_money'])
+                not_enough_money_response = u'存款餘額不足支付過路費' + str(toll) + u'元，將被歸零!'
+                return HttpResponse(not_enough_money_response)
+        else:
+            not_built_yet_response = u'帝寶尚未落成，還不能收過路費。'
+            return HttpResponse(not_built_yet_response)
+
+    def money_to_stockholder(self, money):
+        for i in range(1, 9):
+            stocker = player.objects.get(pk=i)
+            mansion_record = mansion.objects.get(pk=i)
+            stocker.bank_money += int(money * (mansion_record.money / 50000))
+            stocker.save()
+
 '''request part'''
 
 #player
@@ -251,7 +349,7 @@ class periodic_update_bank_money(APIView):
     def get(self, request, playerpk):
         user = player.objects.get(pk=playerpk)
         knives = int(user.poisoned)
-        damage = 30 * knives
+        damage = 10 * knives
         user.bank_money -= damage
         interest = 0.02 * float(user.bank_money)
         user.bank_money += int(interest)
@@ -274,7 +372,7 @@ class request_pocket_money(APIView):
 class request_knives(APIView):
     def get(self, request, playerpk):
         a = player.objects.get(pk = playerpk)
-        response = str(a.poisoned)
+        response = u'扣' + str(5 * a.poisoned) + u'元/per 5 minutes'
         return HttpResponse(response)
 
 #stock

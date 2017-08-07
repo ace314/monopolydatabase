@@ -16,6 +16,8 @@ class LandAdmin(admin.ModelAdmin):
 class StockRandomList(admin.ModelAdmin):
     list_display = ["pk", "stockname","risefall", "index"]
 
+class MansionList(admin.ModelAdmin):
+    list_display = ["tag", "name", "money"]
 
 
 admin.site.register(player, PlayersAdmin)
@@ -23,5 +25,6 @@ admin.site.register(stock, StockListAdmin)
 admin.site.register(players_stock_list, PlayerStocksAdmin)
 admin.site.register(land, LandAdmin)
 admin.site.register(stock_random_risefall_list, StockRandomList)
+admin.site.register(mansion, MansionList)
 
 # Register your models here.

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .views import Addmoney_bank,Addmoney_pocket, Got_knife, Cure_knife, Got_land, Get_house, stockss, change_stock_risefall, generate_stock_risefall, stock_value_update, rob_money, periodic_update_bank_money, request_bank_money, request_pocket_money, request_knives, request_stock_amount, request_stock_value, request_stock_last_risefall, request_lands, request_houses
+from .views import Addmoney_bank,Addmoney_pocket, Got_knife, Cure_knife, Got_land, Get_house, stockss, change_stock_risefall, generate_stock_risefall, stock_value_update, rob_money, pay_toll, invest_mansion, pay_toll_mansion, periodic_update_bank_money, request_bank_money, request_pocket_money, request_knives, request_stock_amount, request_stock_value, request_stock_last_risefall, request_lands, request_houses
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,6 +30,9 @@ urlpatterns = [
     url(r'^genertate-stock-risefall/$', generate_stock_risefall.as_view()),                                                     #跑出股票漲幅表 genertate-stock-risefall/          產生所有股票未來的所有漲幅
     url(r'^periodic-update-stock-value/(?P<timeindex>\d+)/$', stock_value_update.as_view()),                                    #根據漲幅表更改股票的市值 periodic-update-stock-value/時間index(1為第一個5分鐘第一次改，上限為30)/   自動根據時間index的時間找出漲幅表的資料更改所有股票的市值
     url(r'^rob-money/(?P<playerpk>\d+)/$', rob_money.as_view()),                                                                #土匪搶錢專用，依小隊現金搶固定百分比的錢
+    url(r'^pay-toll/(?P<payerpk>\d+)/(?P<landpk>\d+)/$', pay_toll.as_view()),                                                   #付過路費專用
+    url(r'^invest-mansion/(?P<payerpk>\d+)/(?P<money>\d+)/$', invest_mansion.as_view()),                                                   #貢獻錢給帝寶
+    url(r'^pay-toll-mansion/(?P<payerpk>\d+)/$', pay_toll_mansion.as_view()),                                                                    #帝寶過路費
 
     url(r'^request-periodic-update-bank-money/(?P<playerpk>\d+)/$', periodic_update_bank_money.as_view()),                      #每五分鐘發出，根據刀傷和銀行利率改變玩家的銀行存款並回傳
 

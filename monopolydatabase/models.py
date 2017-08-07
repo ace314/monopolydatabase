@@ -40,5 +40,11 @@ class stock_random_risefall_list(models.Model):
     risefall = models.IntegerField(default=0)
     index = models.IntegerField(default=0)
 
+class mansion(models.Model):
+    tag = models.IntegerField(default=0)
+    name = models.CharField(max_length=100, blank=True)
+    money = models.IntegerField(default=0)
+
+
 
 # Create your models here.
