@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="7a523467-1193-47d2-95eb-46b1a5af9df2" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monopolydatabase/admin.py" afterPath="$PROJECT_DIR$/monopolydatabase/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monopolydatabase/models.py" afterPath="$PROJECT_DIR$/monopolydatabase/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monopolydatabase/urls.py" afterPath="$PROJECT_DIR$/monopolydatabase/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/monopolydatabase/views.py" afterPath="$PROJECT_DIR$/monopolydatabase/views.py" />
     </list>
@@ -53,7 +50,7 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monopolydatabase/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
+            <state relative-caret-position="-126">
               <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="16" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
@@ -62,11 +59,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/monopolydatabase/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="571">
-              <caret line="36" column="77" lean-forward="true" selection-start-line="36" selection-start-column="77" selection-end-line="36" selection-end-column="77" />
+            <state relative-caret-position="352">
+              <caret line="36" column="190" lean-forward="false" selection-start-line="36" selection-start-column="190" selection-end-line="36" selection-end-column="190" />
               <folding>
                 <element signature="e#650#682#0" expanded="true" />
               </folding>
@@ -74,14 +71,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monopolydatabase/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-153">
-              <caret line="352" column="21" lean-forward="false" selection-start-line="352" selection-start-column="21" selection-end-line="352" selection-end-column="21" />
+            <state relative-caret-position="294">
+              <caret line="463" column="36" lean-forward="true" selection-start-line="463" selection-start-column="36" selection-end-line="463" selection-end-column="36" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#17132#18211#1" expanded="false" />
+                <element signature="e#19324#20403#1" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -100,7 +97,7 @@
       <file leaf-file-name="admin.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monopolydatabase/admin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
+            <state relative-caret-position="544">
               <caret line="27" column="32" lean-forward="false" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
@@ -121,8 +118,8 @@
         <option value="$PROJECT_DIR$/monopolydatabase/settings.py" />
         <option value="$PROJECT_DIR$/monopolydatabase/models.py" />
         <option value="$PROJECT_DIR$/monopolydatabase/admin.py" />
-        <option value="$PROJECT_DIR$/monopolydatabase/urls.py" />
         <option value="$PROJECT_DIR$/monopolydatabase/views.py" />
+        <option value="$PROJECT_DIR$/monopolydatabase/urls.py" />
       </list>
     </option>
   </component>
@@ -141,8 +138,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-9" />
     <option name="y" value="-9" />
-    <option name="width" value="2418" />
-    <option name="height" value="1318" />
+    <option name="width" value="1932" />
+    <option name="height" value="1092" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -159,7 +156,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -412,6 +408,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -709,17 +706,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="2418" height="1318" extended-state="7" />
-    <editor active="true" />
+    <frame x="-9" y="-9" width="1932" height="1092" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26066554" sideWeight="0.4913232" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26426265" sideWeight="0.4913232" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32870772" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5191898" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32870772" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32784042" sideWeight="0.4978678" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32784042" sideWeight="0.48081023" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3322546" sideWeight="0.48081023" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32784042" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2249467" sideWeight="0.50867677" order="2" side_tool="true" content_ui="tabs" />
@@ -730,6 +726,7 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="manage.py@monopolydatabase" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32784042" sideWeight="0.8927039" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -798,7 +795,7 @@
           <caret line="12" column="46" lean-forward="false" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#17132#18211#1" expanded="false" />
+            <element signature="e#19324#20403#1" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -848,7 +845,7 @@
           <caret line="12" column="46" lean-forward="true" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#17132#18211#1" expanded="false" />
+            <element signature="e#19324#20403#1" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -888,7 +885,7 @@
           <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#17132#18211#1" expanded="false" />
+            <element signature="e#19324#20403#1" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1068,16 +1065,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/monopolydatabase/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../哲/物夜shits/my-first-django/mysite/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="693">
@@ -1085,9 +1072,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/monopolydatabase/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-126">
+          <caret line="16" column="4" lean-forward="false" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/monopolydatabase/admin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
+        <state relative-caret-position="544">
           <caret line="27" column="32" lean-forward="false" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
@@ -1095,23 +1092,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/monopolydatabase/urls.py">
+    <entry file="file://$PROJECT_DIR$/monopolydatabase/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="36" column="77" lean-forward="true" selection-start-line="36" selection-start-column="77" selection-end-line="36" selection-end-column="77" />
+        <state relative-caret-position="294">
+          <caret line="463" column="36" lean-forward="true" selection-start-line="463" selection-start-column="36" selection-end-line="463" selection-end-column="36" />
           <folding>
-            <element signature="e#650#682#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#19324#20403#1" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/monopolydatabase/views.py">
+    <entry file="file://$PROJECT_DIR$/monopolydatabase/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-153">
-          <caret line="352" column="21" lean-forward="false" selection-start-line="352" selection-start-column="21" selection-end-line="352" selection-end-column="21" />
+        <state relative-caret-position="352">
+          <caret line="36" column="190" lean-forward="false" selection-start-line="36" selection-start-column="190" selection-end-line="36" selection-end-column="190" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#17132#18211#1" expanded="false" />
+            <element signature="e#650#682#0" expanded="true" />
           </folding>
         </state>
       </provider>

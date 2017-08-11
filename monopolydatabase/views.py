@@ -236,14 +236,14 @@ class stock_value_update(APIView):
 
 class rob_money(APIView):
 
-    def get(self, request, playerpk):
+    def get(self, request, playerpk, percent):
         user = player.objects.get(pk=playerpk)
         cash = float(user.pocket_money)
-        rob_amount = int(0.95 * cash)
-        user.pocket_money = rob_amount
+        rob_amount = int(0.01 * float(percent) * cash)
+        user.pocket_money -= rob_amount
         user.save()
-        rob = int(cash - rob_amount)
-        success_rob_response = u'成功搶奪第' + str(playerpk) + u'小隊的現金' + str(rob) + u'元!'
+        rob = int(rob_amount)
+        success_rob_response = u'成功扣除第' + str(playerpk) + u'小隊的總現金' + str(percent) + u'%共' + str(rob) + u'元!'
         return HttpResponse(success_rob_response)
 
 class pay_toll(APIView):
@@ -342,6 +342,42 @@ class pay_toll_mansion(APIView):
             stocker.bank_money += int(money * (mansion_record.money / 50000))
             stocker.save()
 
+class add_house_free(APIView):
+    def get(self, request, playerpk, landpk, amount):
+        landing = land.objects.get(pk=landpk)
+        if (landing.owner.pk == int(playerpk)):  #土地確實為買房者擁有
+            amo = int(amount)
+            b = str(abs(amo))
+            landing.houses += amo
+            landing.save()
+            success_response = u'成功為土地免費增加' + b + u'棟房子'
+            return HttpResponse(success_response)
+        else:
+            not_true_owner_response = u'請不要秀財產幫別人的免費蓋房好嗎!\n'
+            return HttpResponse(not_true_owner_response)
+
+class earthquake(APIView):
+    def get(self, request, landtype):
+        a = land.objects.filter(land_type=landtype)
+        type = int(landtype)
+        if(type==1 or type==2 or type==3):
+            for i in range(6):
+                b = a[i]
+                b.houses = 0
+                b.save()
+        if (int(landtype)==1):
+            success_earthquake_distroy_response1 = u'地震已摧毀貧民窟的所有房子!!'
+            return HttpResponse(success_earthquake_distroy_response1)
+        elif(int(landtype)==2):
+            success_earthquake_distroy_response2 = u'地震已摧毀一般住宅區的所有房子!!'
+            return HttpResponse(success_earthquake_distroy_response2)
+        elif (int(landtype)==3):
+            success_earthquake_distroy_response3 = u'地震已摧毀高級住宅區的所有房子!!'
+            return HttpResponse(success_earthquake_distroy_response3)
+        else:
+            nonexist_landtype_response = u'無法辨識的土地種類，地震失敗!!'
+            return HttpResponse(nonexist_landtype_response)
+
 '''request part'''
 
 #player
@@ -415,6 +451,20 @@ class request_houses(APIView):
         landing = land.objects.get(pk=landpk)
         houses_response = str(landing.houses)
         return HttpResponse(houses_response)
+
+class request_next_two_risefall(APIView):
+     def get(self, request, stockpk, timeindex):
+        stocking = stock.objects.get(pk=stockpk)
+        index = int(timeindex)
+        index_a = index + 1
+        a = stock_random_risefall_list.objects.get(stockname=stocking, index=index_a)
+        risefall_a = str(a.risefall)
+        index_b = index + 2
+        b = stock_random_risefall_list.objects.get(stockname=stocking, index=index_b)
+        risefall_b = str(b.risefall)
+        name = str(stocking.stock_name)
+        response = u'股票' + name + u'的下兩次漲跌為:' + risefall_a + u'%以及' + risefall_b + u'%'
+        return HttpResponse(response)
 '''
 
 def Stock_Ups_And_Downs():              #定時更新股票價值

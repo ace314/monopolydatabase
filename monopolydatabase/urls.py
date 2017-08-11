@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from .views import Addmoney_bank,Addmoney_pocket, Got_knife, Cure_knife, Got_land, Get_house, stockss, change_stock_risefall, generate_stock_risefall, stock_value_update, rob_money, pay_toll, invest_mansion, pay_toll_mansion, periodic_update_bank_money, request_bank_money, request_pocket_money, request_knives, request_stock_amount, request_stock_value, request_stock_last_risefall, request_lands, request_houses
+from .views import Addmoney_bank,Addmoney_pocket, Got_knife, Cure_knife, Got_land, Get_house, stockss, change_stock_risefall, generate_stock_risefall, stock_value_update, rob_money, pay_toll, invest_mansion, pay_toll_mansion, add_house_free, earthquake, periodic_update_bank_money, request_bank_money, request_pocket_money, request_knives, request_stock_amount, request_stock_value, request_stock_last_risefall, request_lands, request_houses, request_next_two_risefall
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -29,10 +29,12 @@ urlpatterns = [
     url(r'^change-stock-risefall/(?P<stockpk>\d+)/(?P<risefall>-?\d+)/(?P<timeindex>\d+)/$', change_stock_risefall.as_view()),  #改變特定股票的漲幅 change-stock-risefall/股票編號/要改的漲幅(可以是負的)/時間index(1為第一個5分鐘第一次改，上限為30)/
     url(r'^genertate-stock-risefall/$', generate_stock_risefall.as_view()),                                                     #跑出股票漲幅表 genertate-stock-risefall/          產生所有股票未來的所有漲幅
     url(r'^periodic-update-stock-value/(?P<timeindex>\d+)/$', stock_value_update.as_view()),                                    #根據漲幅表更改股票的市值 periodic-update-stock-value/時間index(1為第一個5分鐘第一次改，上限為30)/   自動根據時間index的時間找出漲幅表的資料更改所有股票的市值
-    url(r'^rob-money/(?P<playerpk>\d+)/$', rob_money.as_view()),                                                                #土匪搶錢專用，依小隊現金搶固定百分比的錢
+    url(r'^rob-money/(?P<playerpk>\d+)/(?P<percent>\d+)/$', rob_money.as_view()),                                               #####土匪搶錢及機會命運專用，依小隊現金搶固定百分比的錢  後面的數字為:/小隊編號/扣錢%數(只能是正值)
     url(r'^pay-toll/(?P<payerpk>\d+)/(?P<landpk>\d+)/$', pay_toll.as_view()),                                                   #付過路費專用
-    url(r'^invest-mansion/(?P<payerpk>\d+)/(?P<money>\d+)/$', invest_mansion.as_view()),                                                   #貢獻錢給帝寶
-    url(r'^pay-toll-mansion/(?P<payerpk>\d+)/$', pay_toll_mansion.as_view()),                                                                    #帝寶過路費
+    url(r'^invest-mansion/(?P<payerpk>\d+)/(?P<money>\d+)/$', invest_mansion.as_view()),                                        #貢獻錢給帝寶
+    url(r'^pay-toll-mansion/(?P<payerpk>\d+)/$', pay_toll_mansion.as_view()),                                                   #帝寶過路費
+    url(r'^add-house-free/(?P<playerpk>\d+)/(?P<landpk>\d+)/(?P<amount>\d+)/$', add_house_free.as_view()),                      #####免費加房子，格式為/小隊編號/土地編號/增加房子數量(只能是正值)
+    url(r'^earthquake/(?P<landtype>\d+)/$', earthquake.as_view()),                                                              #####地震earthquake/(土地分類)/      1=貧民窟，2=一般住宅，3=高級住宅，其他數字會回傳地震失敗
 
     url(r'^request-periodic-update-bank-money/(?P<playerpk>\d+)/$', periodic_update_bank_money.as_view()),                      #每五分鐘發出，根據刀傷和銀行利率改變玩家的銀行存款並回傳
 
@@ -46,4 +48,5 @@ urlpatterns = [
 
     url(r'^request-lands/(?P<playerpk>\d+)/(?P<landpk>\d+)/$', request_lands.as_view()),                                        #判斷特定土地是否為特定小隊擁有 request-lands/小隊編號/土地編號        回傳1=True(擁有) 0=False(不擁有)
     url(r'^request-houses/(?P<landpk>\d+)/$', request_houses.as_view()),                                                        #獲得特定土地的房子數量 request-houses/土地編號
+    url(r'^request-next-two-risefall/(?P<stockpk>\d+)/(?P<timeindex>\d+)/$', request_next_two_risefall.as_view()),              #####得到下兩次的漲幅，輸入的timeindex為最後一次使用過的index，例如遊戲經過27分鐘應該輸入5
 ]
