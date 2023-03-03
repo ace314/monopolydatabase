@@ -3,7 +3,8 @@
 This is a simple app of the monopoly game for NTU physics/Social Work orientation 「廢物公會」 in 2017.
 
 The app icon:  
-<img src="https://github.com/ace314/monopolydatabase/blob/master/monopolydatabase/icon.png" width=100/>  
+<img src="https://github.com/ace314/monopolydatabase/blob/master/monopolydatabase/icon.png" width=100/> 
+<img src="https://github.com/ace314/monopolydatabase/blob/master/monopolydatabase/icon_staff.png" width=100/>
 
 To start the game, please type in the starting time when you first opening the app:  
 <img src="https://github.com/ace314/monopolydatabase/blob/master/monopolydatabase/start.png" width=350/>  
